@@ -52,10 +52,18 @@ async function extractPipelineId(): Promise<string | null> {
   const direct = findPipelineIdInDom();
   if (direct) return direct;
 
-  // Checks section is likely collapsed — expand it
-  const expandBtn = getChecksExpandButton();
+  // Wait for the checks section to appear if it hasn't loaded yet
+  const expandBtn =
+    getChecksExpandButton() ??
+    await waitFor(getChecksExpandButton, 5000);
   if (!expandBtn) return null;
 
+  // If checks are already expanded but GitLab row isn't there yet, wait
+  if (expandBtn.getAttribute('aria-label') === 'Collapse checks') {
+    return await waitFor(findPipelineIdInDom, 2000);
+  }
+
+  // Checks section is collapsed — expand it
   expandBtn.click();
   const id = await waitFor(findPipelineIdInDom, 2000);
   // Collapse it back

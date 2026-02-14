@@ -11,7 +11,7 @@ export default defineContentScript({
 
       if (e.key === 'g' || e.key === 'G') {
         e.preventDefault();
-        const pipelineId = extractPipelineId();
+        const pipelineId = await extractPipelineId();
 
         if (!settings.gitlabUrl) {
           console.warn('[Quick Nav] GitLab URL not configured. Open extension options.');
@@ -46,22 +46,60 @@ export default defineContentScript({
 
 /**
  * Extract GitLab pipeline ID from the checks section.
- * Finds the check row titled "GitLab" and reads the pipeline ID
- * from its description text (e.g. "— 3442426").
+ * If the section is collapsed, expands it temporarily to read the data.
  */
-function extractPipelineId(): string | null {
+async function extractPipelineId(): Promise<string | null> {
+  const direct = findPipelineIdInDom();
+  if (direct) return direct;
+
+  // Checks section is likely collapsed — expand it
+  const expandBtn = getChecksExpandButton();
+  if (!expandBtn) return null;
+
+  expandBtn.click();
+  const id = await waitFor(findPipelineIdInDom, 2000);
+  // Collapse it back
+  expandBtn.click();
+  return id;
+}
+
+function findPipelineIdInDom(): string | null {
   const checkRows = document.querySelectorAll('li[aria-label]');
   for (const row of checkRows) {
     const label = row.getAttribute('aria-label')?.trim();
     if (label !== 'GitLab') continue;
-    const desc = row.querySelector(
-      '[class*="titleDescription"]',
-    );
+    const desc = row.querySelector('[class*="titleDescription"]');
     if (!desc?.textContent) continue;
     const match = desc.textContent.match(/—\s*(\d+)/);
     if (match) return match[1];
   }
   return null;
+}
+
+function getChecksExpandButton(): HTMLButtonElement | null {
+  const section = document.querySelector(
+    'section[aria-label="Checks"]',
+  );
+  return section?.querySelector<HTMLButtonElement>(
+    'button[aria-label="Expand checks"], button[aria-label="Collapse checks"]',
+  ) ?? null;
+}
+
+function waitFor<T>(
+  fn: () => T | null,
+  timeout: number,
+  interval = 100,
+): Promise<T | null> {
+  return new Promise((resolve) => {
+    const start = Date.now();
+    const check = () => {
+      const result = fn();
+      if (result) return resolve(result);
+      if (Date.now() - start >= timeout) return resolve(null);
+      setTimeout(check, interval);
+    };
+    check();
+  });
 }
 
 /**

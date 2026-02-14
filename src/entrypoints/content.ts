@@ -14,11 +14,11 @@ export default defineContentScript({
         const pipelineId = await extractPipelineId();
 
         if (!settings.gitlabUrl) {
-          console.warn('[Quick Nav] GitLab URL not configured. Open extension options.');
+          console.warn('[FasterBlaster] GitLab URL not configured. Open extension options.');
           return;
         }
         if (!pipelineId) {
-          console.warn('[Quick Nav] Could not find pipeline ID on this page.');
+          console.warn('[FasterBlaster] Could not find pipeline ID on this page.');
           return;
         }
 
@@ -30,11 +30,11 @@ export default defineContentScript({
         const jiraId = extractJiraId();
 
         if (!settings.jiraUrl) {
-          console.warn('[Quick Nav] Jira URL not configured. Open extension options.');
+          console.warn('[FasterBlaster] Jira URL not configured. Open extension options.');
           return;
         }
         if (!jiraId) {
-          console.warn('[Quick Nav] Could not find Jira task ID on this page.');
+          console.warn('[FasterBlaster] Could not find Jira task ID on this page.');
           return;
         }
 

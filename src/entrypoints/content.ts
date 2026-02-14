@@ -45,13 +45,23 @@ export default defineContentScript({
 });
 
 /**
- * Extract pipeline ID from the GitHub PR page.
- * TODO: Adjust selector/logic based on where the pipeline ID actually appears.
+ * Extract GitLab pipeline ID from the checks section.
+ * Finds the check row titled "GitLab" and reads the pipeline ID
+ * from its description text (e.g. "— 3442426").
  */
 function extractPipelineId(): string | null {
-  const body = document.body.innerText;
-  const match = body.match(/pipeline\s*#?(\d+)/i);
-  return match?.[1] ?? null;
+  const checkRows = document.querySelectorAll('li[aria-label]');
+  for (const row of checkRows) {
+    const label = row.getAttribute('aria-label')?.trim();
+    if (label !== 'GitLab') continue;
+    const desc = row.querySelector(
+      '[class*="titleDescription"]',
+    );
+    if (!desc?.textContent) continue;
+    const match = desc.textContent.match(/—\s*(\d+)/);
+    if (match) return match[1];
+  }
+  return null;
 }
 
 /**

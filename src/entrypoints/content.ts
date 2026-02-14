@@ -56,11 +56,24 @@ function extractPipelineId(): string | null {
 
 /**
  * Extract Jira task ID from the GitHub PR title.
- * Looks for patterns like "PROJ-1234".
+ * Matches patterns like "LVPN-9923" (2+ uppercase letters, dash, digits).
  */
 function extractJiraId(): string | null {
-  const titleEl = document.querySelector('.gh-header-title .js-issue-title');
-  const title = titleEl?.textContent ?? '';
+  const title = getPrTitle();
+  if (!title) return null;
   const match = title.match(/[A-Z]{2,}-\d+/);
   return match?.[0] ?? null;
+}
+
+function getPrTitle(): string | null {
+  const selectors = [
+    'h1 .markdown-title',
+    '.gh-header-title .js-issue-title',
+    '.gh-header-title bdi',
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector(sel);
+    if (el?.textContent?.trim()) return el.textContent.trim();
+  }
+  return null;
 }

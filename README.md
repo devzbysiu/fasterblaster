@@ -54,6 +54,16 @@ PR status checks, so you can jump to them instantly without leaving the page.
 - Firefox
 - Vivaldi
 
+### From Release (recommended)
+
+1. Go to the [latest release](https://github.com/devzbysiu/fasterblaster/releases/latest)
+2. Download the `.zip` file for your browser:
+   - **Chrome / Chromium-based**: `fasterblaster-*-chrome.zip`
+   - **Firefox**: `fasterblaster-*-firefox.zip`
+3. Install the extension:
+   - **Chrome**: Navigate to `chrome://extensions`, enable "Developer mode", click "Load unpacked", and select the extracted folder
+   - **Firefox**: Navigate to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", and select the `.zip` file
+
 ### From Source
 
 ```bash

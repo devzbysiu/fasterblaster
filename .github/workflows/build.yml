@@ -24,17 +24,20 @@ jobs:
       - name: Build and package Firefox extension
         run: npm run zip:firefox
 
-      - name: List build output
-        run: ls -la .output/*.zip
+      - name: Find artifact paths
+        id: artifacts
+        run: |
+          echo "chrome=$(ls .output/*-chrome.zip)" >> "$GITHUB_OUTPUT"
+          echo "firefox=$(ls .output/*-firefox.zip)" >> "$GITHUB_OUTPUT"
 
       - name: Upload Chrome artifact
         uses: actions/upload-artifact@v4
         with:
           name: chrome-mv3
-          path: .output/fasterblaster-*-chrome.zip
+          path: ${{ steps.artifacts.outputs.chrome }}
 
       - name: Upload Firefox artifact
         uses: actions/upload-artifact@v4
         with:
           name: firefox-mv2
-          path: .output/fasterblaster-*-firefox.zip
+          path: ${{ steps.artifacts.outputs.firefox }}

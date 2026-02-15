@@ -6,6 +6,7 @@
     <strong>Quickly open GitLab pipelines and Jira tasks from GitHub PRs</strong>
   </h3>
 
+
   <p>
     <img alt="WXT" src="https://img.shields.io/badge/WXT-framework-blue?style=for-the-badge"/>
     <img alt="Svelte" src="https://img.shields.io/badge/Svelte-5-orange?style=for-the-badge"/>
@@ -28,6 +29,8 @@
 </div>
 
 # <p id="about">About</p>
+
+> **Disclaimer:** This project is entirely vibe-coded.
 
 FasterBlaster is a browser extension that adds quick keyboard-driven navigation
 from GitHub Pull Request pages to related Jira tasks and GitLab pipelines. It

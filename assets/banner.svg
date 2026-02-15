@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0b832"/>
+      <stop offset="100%" stop-color="#f47621"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e6edf3"/>
+      <stop offset="100%" stop-color="#c9d1d9"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="boltGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" rx="12" fill="url(#bg)"/>
+
+  <!-- Subtle border -->
+  <rect width="800" height="200" rx="12" fill="none" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Speed lines -->
+  <g opacity="0.15" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round">
+    <line x1="60" y1="60" x2="140" y2="60"/>
+    <line x1="40" y1="80" x2="150" y2="80"/>
+    <line x1="70" y1="100" x2="155" y2="100"/>
+    <line x1="50" y1="120" x2="145" y2="120"/>
+    <line x1="65" y1="140" x2="135" y2="140"/>
+  </g>
+
+  <!-- Lightning bolt icon -->
+  <g transform="translate(175, 55)" filter="url(#boltGlow)">
+    <path d="M50 0 L20 42 L38 42 L28 90 L70 38 L48 38 Z" fill="url(#bolt)"/>
+  </g>
+
+  <!-- Project name -->
+  <text x="280" y="112" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="56" fill="url(#textGrad)" letter-spacing="-1">
+    Faster<tspan fill="#f0b832">Blaster</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="283" y="145" font-family="'Segoe UI', Arial, sans-serif" font-weight="400" font-size="16" fill="#8b949e" letter-spacing="0.5">
+    GitHub PR → Jira &amp; GitLab in a keystroke
+  </text>
+
+  <!-- Keyboard shortcut hints -->
+  <g transform="translate(570, 55)">
+    <!-- Alt+J badge -->
+    <rect x="0" y="0" width="90" height="32" rx="6" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+    <text x="45" y="21" font-family="'Courier New', monospace" font-weight="600" font-size="14" fill="#58a6ff" text-anchor="middle">Alt+J</text>
+    <text x="100" y="21" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#8b949e">Jira</text>
+
+    <!-- Alt+G badge -->
+    <rect x="0" y="42" width="90" height="32" rx="6" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+    <text x="45" y="63" font-family="'Courier New', monospace" font-weight="600" font-size="14" fill="#f0b832" text-anchor="middle">Alt+G</text>
+    <text x="100" y="63" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#8b949e">GitLab</text>
+  </g>
+</svg>

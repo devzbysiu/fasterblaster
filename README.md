@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>FasterBlaster</h1>
+  <img src="assets/banner.svg" alt="FasterBlaster banner" width="800"/>
 
   <h3>
     <strong>Quickly open GitLab pipelines and Jira tasks from GitHub PRs</strong>

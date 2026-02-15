@@ -1,0 +1,37 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm install
+
+      - name: Build and package Chrome extension
+        run: npm run zip
+
+      - name: Build and package Firefox extension
+        run: npm run zip:firefox
+
+      - name: Upload Chrome artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-mv3
+          path: .output/*-chrome.zip
+
+      - name: Upload Firefox artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefox-mv2
+          path: .output/*-firefox.zip

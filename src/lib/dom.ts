@@ -18,7 +18,7 @@ export function findPipelineIdInDom(): string | null {
   const checkRows = document.querySelectorAll('li[aria-label]');
   for (const row of checkRows) {
     const label = row.getAttribute('aria-label')?.trim();
-    if (label !== 'GitLab') continue;
+    if (!label?.startsWith('GitLab')) continue;
     const desc = row.querySelector('[class*="titleDescription"]');
     if (!desc?.textContent) continue;
     const id = extractPipelineIdFromText(desc.textContent);
